@@ -1,0 +1,83 @@
+<!-- upload.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image & Video Upload & Display</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <pre>
+ ⠀  ____  ___  ____   ____ _   _ ____  ___ ___  ⠀
+ ⠀ |  _ \|_ _|/ ___| / ___| | | |  _ \| _/ _ \ ⠀
+ ⠀ | | | || | \___ \| |   | | | | |_) || | | | |⠀
+ ⠀ | |_| || |  ___) | |___| |_| |  _ < | | |_| |⠀
+ |____/|___||____/ \____|\___/|_| \_\___\___/
+        </pre>
+
+        <div class="ascii-box" id="ascii-box">
+            <p>No media uploaded</p>
+        </div>
+
+        <div class="buttons">
+            <input type="file" accept="image/*,video/*" id="file-input">
+            <button class="flip-button" onclick="flipBox()">Flip Box</button>
+        </div>
+    </div>
+
+    <div class="toggle-container">
+        <div class="toggle-button" id="toggleButton">
+            <span class="light-mode-icon">☀️</span>
+            <div class="divider"></div>
+            <span class="dark-mode-icon">🌙</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let isLandscape = true;
+
+        document.getElementById('file-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const box = document.getElementById('ascii-box');
+                    box.innerHTML = ''; // Clear previous content
+                    const fileType = file.type.split('/')[0];
+
+                    if (fileType === 'image') {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = "Uploaded Image";
+                        box.appendChild(img);
+                    } else if (fileType === 'video') {
+                        const video = document.createElement('video');
+                        video.src = e.target.result;
+                        video.controls = true;
+                        box.appendChild(video);
+                    }
+                };
+                reader.readAsDataURL(file);
+            } else {
+                const box = document.getElementById('ascii-box');
+                box.innerHTML = '<p>No media uploaded</p>';
+            }
+        });
+
+        function flipBox() {
+            const box = document.getElementById('ascii-box');
+            if (isLandscape) {
+                box.style.width = '300px';
+                box.style.height = '500px';
+            } else {
+                box.style.width = '500px';
+                box.style.height = '300px';
+            }
+            isLandscape = !isLandscape;
+        }
+    </script>
+</body>
+</html>

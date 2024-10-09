@@ -1,0 +1,76 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="toggle-container">
+        <div class="toggle-button" id="toggleButton">
+            <span class="light-mode-icon">☀️</span>
+            <div class="divider"></div>
+            <span class="dark-mode-icon">🌙</span>
+        </div>
+    </div>
+
+    <div class="welcome-text" id="welcomeText"></div>
+    <div class="cursor"></div>
+
+    <script src="script.js"></script>
+    <script>
+        const messages = [
+            "Welcome to DISCURIO.",
+            "DISCURIO is an experience that will challenge you to search, learn, think, and live.",
+            "Completion of these challenges must be proven with a photo.",
+            "Stolen or forged photographs will be detected and DISCURIO will become invisible to you.",
+            "No two challenges will be the same and each will vary in the level of commitment required and resources needed.",
+            "The challenges will become increasingly difficult and personal.",
+            "This experience can be joined at any time and there is no participant quota.",
+            "Complete one hundred challenges, and you win.",
+            "Good luck and please enjoy DISCURIO."
+        ];
+        const textElement = document.getElementById("welcomeText");
+        let messageIndex = 0;
+        let charIndex = 0;
+
+        function typeText() {
+            if (charIndex < messages[messageIndex].length) {
+                textElement.textContent += messages[messageIndex].charAt(charIndex);
+                charIndex++;
+                setTimeout(typeText, 10);
+            } else {
+                setTimeout(() => {
+                    clearText();
+                }, 1000);
+            }
+        }
+
+        function clearText() {
+            if (charIndex > 0) {
+                charIndex--;
+                textElement.textContent = messages[messageIndex].substring(0, charIndex);
+                setTimeout(clearText, 5);
+            } else {
+                messageIndex++;
+                if (messageIndex < messages.length) {
+                    setTimeout(() => {
+                        typeText();
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        document.querySelector('.cursor').style.display = 'none';
+                        window.location.href = "upload.html"; // Redirect to upload.html
+                    }, 1000);
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            typeText();
+        });
+    </script>
+</body>
+</html>
